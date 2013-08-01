@@ -62,12 +62,12 @@
 	slide.showFirst();
 	document.body.addEventListener('keydown', function (e) {
 		if(e.keyIdentifier == 'Right') {
-			//target.animate({ translateX: 300 }, 1500);
-			slide.next();
+			target.animate({ translateX: 300 }, 500);
+			//slide.next();
 		}
 		if(e.keyIdentifier == 'Left') {
-			//target.animate({ translateX: 0}, 1500);
-			slide.prev();
+			target.animate({ translateX: 0}, 500);
+			//slide.prev();
 		}
 	});
 </script>
