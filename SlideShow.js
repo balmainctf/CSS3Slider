@@ -1,4 +1,5 @@
 /**
+ * var baidu = require('tangram.js');
  * var CSS3Animate = require('CSS3Animate.js');
  */
 
@@ -30,7 +31,7 @@
  * @event afterslide(from, to)
  */
 
-var SlideShow = (function( CSS3Animate ){
+var SlideShow = (function( baidu, CSS3Animate ){
 
 function Event() {
     this._event = {};
@@ -56,22 +57,6 @@ function merge( target, source ) {
     for(var p in source)
         if ( source.hasOwnProperty(p) ) target[p] = source[p];
     return target;
-}
-
-function foreach( arrayLike, fn ) {
-    var length, i;
-    if( !(length = arrayLike.length) ) return;
-    for ( i = length - 1; i >=0; --i ) {
-        fn.apply( arrayLike[i], [i] );
-    }
-}
-
-function filter( arrayLike, condition ) {
-    var filtered = [];
-    foreach( arrayLike, function() {
-        condition(this) && filtered.push(this);
-    });
-    return filtered;
 }
 
 function SlideShow( config ) {
@@ -109,7 +94,7 @@ function SlideShow( config ) {
             duration: 300
         }, config );
 
-        container = document.getElementById( container );
+        container = baidu.dom( config.container );
         direction = config.direction.toUpperCase();
         duration = config.duration;
         effect = {};
@@ -137,9 +122,7 @@ function SlideShow( config ) {
     function initVars() {
         index = 0;
         sliding = false;
-        sliders = filter( container.childNodes, function() {
-            return this.nodeType == 1; // element
-        });
+        sliders = container.children().css('display', 'none');
     }
 
     function showFirst() {
@@ -220,5 +203,5 @@ function SlideShow( config ) {
 
 return SlideShow;
 
-})(CSS3Animate);
+})(baidu, CSS3Animate);
 

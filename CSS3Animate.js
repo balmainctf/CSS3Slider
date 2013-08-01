@@ -211,7 +211,7 @@ var CSS3Animate = (function (window) {
     HTMLElement.prototype.animate = function(styles, duration, callback) {
         doAnimate(this, styles, duration, callback);
         return this;
-    }
+    };
 
     HTMLElement.prototype.css = function( styles ) {
         if ( typeof(styles) == 'string' && arguments.length == 2 ) {
@@ -222,6 +222,30 @@ var CSS3Animate = (function (window) {
         var copy = clone(styles);
         mapStyles(this, copy);
         setStyles(this, copy);
+    };
+    var extend = {
+        cssAnimate: function ( styles, duration, callback ) {
+            var length = this.length, called = 0, that = this;
+            function checkCall() {
+                if( ++called == length ) callback.apply( that );
+            }
+            for(var i = 0; i < length; i++) {
+                doAnimate( this[i], styles, duration, callback ? checkCall : undefined );
+            }
+            return this;
+        }
+    };
+    if ( window.baidu ) {
+        window.baidu.dom.extend( extend );
+        baidu.dom.extend({
+            css3: function ( styles ) {
+                for(var i = 0; i < this.length; ++i) {
+                    var copy = clone(styles);
+                    mapStyles(this[i], copy);
+                    baidu(this[i]).css( copy );
+                }
+                return this;
+            }
+        });
     }
-
 })(window);
