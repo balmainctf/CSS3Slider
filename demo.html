@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Slide show demo</title>
 	<script type="text/javascript" src="tangram.js"></script>
 	<script type="text/javascript" src="CSS3Animate.js"></script>
-	<script type="text/javascript" src="SlideShow.js"></script>
+	<script type="text/javascript" src="Slider.js"></script>
 	<style type="text/css">
 	html, body {
 		margin: 0;
@@ -15,59 +16,66 @@
 		position: absolute;
 		height: 100%;
 		width: 100%;
+		background-size: cover;
 	}
-	.red-face {
-		background-color: red;
+	.img1 {
+		background: url(1.jpg);
 	}
-	.blue-face {
-		background-color: blue;
+	.img2 {
+		background: url(2.jpg);
 	}
-	.green-face {
-		background-color: green;
+	.img3 {
+		background: url(3.jpg);
 	}
-	.black-face {
-		background-color: black;
+	.img4 {
+		background: url(4.jpg);
 	}
-	.yellow-face {
-		background-color: yellow;
+	.img5 {
+		background: url(5.jpg);
 	}
 	#target {
-		width: 100px;
-		height: 100px;
-		top: 300px;
-		left: 300px;
+		width: 50px;
+		height: 50px;
 		position: absolute;
-		background: gray;
+		background: rgba(255,255,255,.5);
+		border: 1px solid rgba(255,255,255,.8);
 		color: white;
+		bottom: 50px;
+		left: 50px;
 	}
 	</style>
 </head>
 <body>
 	<div id="container">
-		<div class="red-face"></div>
-		<div class="blue-face"></div>
-		<div class="green-face"></div>
-		<div class="black-face"></div>
-		<div class="yellow-face"></div>
+		<div class="img1"></div>
+		<div class="img2"></div>
+		<div class="img3"></div>
+		<div class="img4"></div>
+		<div class="img5"></div>
 	</div>
-	<div id="target">Press left or right</div>
+	<div id="target"></div>
 </body>
 <script type="text/javascript">
 	var target = document.getElementById('target');
-	var slide = new SlideShow({
-		container: '#container',
-		duration: 500,
-		effect: 'fold'
-	});
-	slide.showFirst();
+	var slide = new Slider( document.getElementById('container') );
+	slide.show(0);
+	var ca = CSS3Animate;
 	document.body.addEventListener('keydown', function (e) {
-		if(e.keyIdentifier == 'Right') {
-			target.animate({ translateX: 300 }, 500);
-			//slide.next();
-		}
-		if(e.keyIdentifier == 'Left') {
-			target.animate({ translateX: 0}, 500);
-			//slide.prev();
+		switch ( e.keyIdentifier ) {
+			case 'Left':
+				ca.start( target, { x: '+-200'}, 500);
+				slide.prev();
+				break;
+			case 'Right':
+				ca.start( target, { x: '+200px'}, 500);
+				slide.next();
+				break;
+			case 'Up':
+				ca.start( target, { y: '+-200'}, 500);
+				break;
+			case 'Down':
+				ca.start( target, { y: '+200px'}, 500);
+				break;
 		}
 	});
 </script>
